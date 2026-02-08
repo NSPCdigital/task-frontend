@@ -44,6 +44,26 @@ function Dashboard({ onLogout }) {
         }
     };
 
+        const handleToggleTask = async (taskId, currentStatus) => {
+        try {
+            const newStatus = currentStatus === 'todo' ? 'done' : 'todo';
+            const token = localStorage.getItem('token');
+            // Wywołujemy nasze API
+            await fetch(`http://localhost:5000/tasks/${taskId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+            // Aktualizujemy listę na ekranie
+            setTasks(tasks.map(task => task.id === taskId ? {...task, status: newStatus} : task));
+        } catch (err) {
+            console.error('Error updating task:', err);
+        }
+    };
+
     const handleLogout = () => {
         removeToken();
         onLogout();
@@ -83,7 +103,11 @@ function Dashboard({ onLogout }) {
                             <div key={task.id} className="task-item">
                                 <div className="task-content">
                                     <h3>{task.title}</h3>
-                                    <span className={`status-badge status-${task.status}`}>
+                                    <span 
+                                        className={`status-badge status-${task.status}`} 
+                                        onClick={() => handleToggleTask(task.id, task.status)}
+                                        style={{cursor: 'pointer'}}
+                                    >
                                         {task.status}
                                     </span>
                                 </div>
