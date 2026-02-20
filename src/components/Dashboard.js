@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import FileUpload from './FileUpload';
 import { getTasks, addTask, deleteTask, removeToken } from '../services/api';
 import './Dashboard.css';
 
@@ -74,11 +75,12 @@ function Dashboard({ onLogout }) {
     }
 
     return (
-        <div className="dashboard">
+           <div className="dashboard">
             <div className="dashboard-header">
                 <h1>📋 Moje Zadania</h1>
                 <button onClick={handleLogout} className="logout-btn">Wyloguj</button>
             </div>
+
 
             <div className="add-task-form">
                 <form onSubmit={handleAddTask}>
@@ -91,6 +93,9 @@ function Dashboard({ onLogout }) {
                     <button type="submit">➕ Dodaj</button>
                 </form>
             </div>
+
+            {/* Upload plików do S3 */}
+            <FileUpload />
 
             <div className="tasks-container">
                 {tasks.length === 0 ? (

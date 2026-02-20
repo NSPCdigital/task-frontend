@@ -1,3 +1,22 @@
+# Test workflow and production switch
+
+## Test workflow (without AWS)
+
+1. Backend:
+	- Run `python app.py` in the task-api folder.
+	- The `/s3/presign` endpoint returns a test link.
+2. Frontend:
+	- Start the React app (`npm start` in task-frontend).
+	- In the Dashboard, select a file and click Upload.
+	- If the backend returns a test link, you will see the message: "Test mode: backend returned a test link. Upload to S3 was not performed."
+3. You can test the entire upload logic without AWS.
+
+## Switch to production
+- In task-api/s3_presign.py set `TEST_MODE = False` and provide real AWS credentials.
+- The frontend will upload files to S3.
+
+---
+Project ready for testing!
 # ⚛️ SecureTask React Frontend
 
 Modern React frontend for task management with JWT authentication.
